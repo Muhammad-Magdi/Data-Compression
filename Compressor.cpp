@@ -7,7 +7,7 @@ Compressor :: Compressor(string IF){
 }
 
 void Compressor :: deleteSpaces(){
-	vector<string> 
+	
 }
 
 bool Compressor :: compress(string IF){
@@ -17,3 +17,16 @@ bool Compressor :: compress(string IF){
 bool Compressor :: deCompress(string IF){
 	if(IF.empty() && inputFile.empty())	return 0;
 }
+
+bool Compressor :: printOutput(Operation op){
+
+}
+
+void Compressor :: compressTagsRLE(){
+	/* using numbers in ASCII starting from 210 -not represented on keyboard- */
+}
+
+void Compressor :: getInput(){
+	
+}
+
