@@ -7,53 +7,72 @@ Compressor :: Compressor(string IF){
 }
 
 bool Compressor :: compress(string IF){
-	if(IF.empty() && inputFile.empty())	return false;
-	if(!IF.empty())	inputFile = IF;
-	getInput(COMPRESS);
+	if(IF.empty() && inputFile.empty())	return 0;
+	if(inputFile.empty())	inputFile = IF;
+	cout << inputFile.size() << endl;
+	getInput();
+	cout << data.size() << endl;
 	deleteSpaces();
-	compressTags();
-	compressRLE();
-	printOutput(COMPRESS);
-	return true;
+	cout << data.size() << endl;
+//	compressTags();
+//	compressRLE();
+	printOutput(COMPRESSED);
+	return 1;
 }
 
-bool Compressor :: getInput(Operation op){
-	if(op == DECOMPRESS && inputFile.substr(0, 4) !="COM_")	return false;
+void Compressor :: getInput(){
 	instream  = ifstream(inputFile, ios::in);
 	string s;
 	while(getline(instream, s))
 		data += s;
-	return 1;
 }
 
 void Compressor :: deleteSpaces(){
 	string outputFile = "";
+	char pr;
 	for(int i=0; i<data.size(); i++){
+    if(data[i]=='\t')
+      data[i] = ' ';
     if(data[i]=='<'){
       while(data[i]!='>'){
+        if(data[i]==' ' && outputFile.back()==' '){
+          i++;
+          continue;
+        }
         outputFile.push_back(data[i++]);
       }
     }
     else if(data[i]=='\"'){
     	outputFile.push_back(data[i++]);
-      while(data[i]!='\"')
+      while(data[i]!='\"'){
+        if(data[i]==' ' && outputFile.back()==' '){
+          i++;
+          continue;
+        }
         outputFile.push_back(data[i++]);
+      }
       outputFile.push_back(data[i]);
     }
     else if(data[i]=='\''){
     	outputFile.push_back(data[i++]);
-      while(data[i]!='\'')
+      while(data[i]!='\''){
+        if(data[i]==' ' && outputFile.back()==' '){
+          i++;
+          continue;
+        }
         outputFile.push_back(data[i++]);
+      }
       outputFile.push_back(data[i]);
     }
-    else if(data[i] == ' ' || data[i]=='\t') continue;
+    else if(data[i] == ' ' && outputFile.back()==' ') continue;
   	outputFile.push_back(data[i]);
   }
+  cout << endl;
 	data = outputFile;
 }
 
 void Compressor :: compressTags(){
-	
+
 }
 
 void Compressor :: compressRLE(){
@@ -63,49 +82,32 @@ void Compressor :: compressRLE(){
 		int cnt = 1, j = i+1;
 		while(j < data.length() && data[i]==data[j] && cnt < 15)	++cnt, ++j;
 		if(cnt>2){
-			ret.push_back((char)(ASCIIbase + cnt - 3));
+			ret += (ASCIIbase + cnt);
 		}else{
 			j = i+1;
 		}
-			ret.push_back(data[i]);
+			ret += data[i];
 		i = j;
 	}
-	data = ret;
 }
 
 bool Compressor :: deCompress(string IF){
-	if(IF.empty() && inputFile.empty())	return false;
-	if(!IF.empty())	inputFile = IF;
-	getInput(DECOMPRESS);
-	deCompressTags();
-	deCompressRLE();
-	printOutput(DECOMPRESS);
-	return true;
+	if(IF.empty() && inputFile.empty())	return 0;
 }
 
 bool Compressor :: printOutput(Operation op){
 	string o = "";
-	if(op == COMPRESS)	o = "COM_"+inputFile;
-	else	o = inputFile.substr(3, inputFile.size()-3);
+	o = (op == DECOMPRESSED ? "" : "COM_") + inputFile;
 	outstream = ofstream(o, ios::out);
 	outstream << data;
 }
 
 void Compressor :: deCompressTags(){
-	
+
 }
 
-void Compressor :: deCompressRLE(){
-	string ret = "";
-	for(int i = 0 ; i < (int)data.length() ; ++i){
-		int cnt = 0;
-		if((unsigned char)data[i] >= ASCIIbase)	cnt = (unsigned char)data[i++]-ASCIIbase+2;
-		while(cnt--){
-			ret.push_back(data[i]);
-		}
-		ret.push_back(data[i]);
-	}
-	data = ret;
+void Compressor :: decompressRLE(){
+
 }
 
 

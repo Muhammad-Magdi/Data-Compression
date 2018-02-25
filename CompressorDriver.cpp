@@ -4,7 +4,6 @@ using namespace std;
 
 int main(){
 	Compressor c;
-	cout << c.compress("a.html") << endl;
-	cout << c.deCompress("COM_a.html") << endl;
+	cout << c.compress("Codeforces.html") << endl;
 	return 0;
 }
