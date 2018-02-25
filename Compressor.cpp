@@ -6,38 +6,43 @@ Compressor :: Compressor(string IF){
 	inputFile = IF;
 }
 
-void Compressor :: deleteSpaces(){
+void Compressor :: deleteSpaces(string IF){
+	vector<string> tree;
 	string outputFile = "";
-	for(int i=0; i<data.size(); i++){
-    if(data[i]=='<'){
-      while(data[i]!='>'){
-        outputFile.push_back(data[i++]);
+	for(int i=0; i<inputFile.size(); i++){
+    if(inf[i]=='<'){
+      while(inf[i]!='>'){
+        outputFile.push_back(inf[i++]);
       }
-      outputFile.push_back();
+      outputFile.push_back()
       continue;
     }
-    if(data[i]=='"'){
-      while(data[i]!='"'){
-        outputFile.push_back(data[i++]);
+    if(inf[i]=='"'){
+      while(inf[i]!='"'){
+        outputFile.push_back(inf[i++]);
       }
-      outputFile.push_back();
+      outputFile.push_back()
       continue;
     }
-    if(data[i]=='\''){
-      while(data[i]!='\''){
-        outputFile.push_back(data[i++]);
+    if(inf[i]=='\''){
+      while(inf[i]!='\''){
+        outputFile.push_back(inf[i++]);
       }
-      outputFile.push_back();
+      outputFile.push_back()
       continue;
     }
-    if(data[i] == ' ' || data[i] == '\n') continue;
-    outputFile.push_back(data[i]);
+    if(inf[i] == ' ') continue;
+    outputFile.push_back(inf[i]);
     }
-    data = outputFile;
 }
 
 bool Compressor :: compress(string IF){
 	if(IF.empty() && inputFile.empty())	return 0;
+	getInput();
+	deleteSpaces();
+	compressTags();
+	compressRLE();
+	printOutput(DECOMPRESSED);
 }
 
 bool Compressor :: deCompress(string IF){
@@ -45,19 +50,45 @@ bool Compressor :: deCompress(string IF){
 }
 
 bool Compressor :: printOutput(Operation op){
-
+	string o = "";
+	o = (op == DECOMPRESSED ? "" : "COM_") + inputFile;
+	outstream = ofstream(o, "ios::out");
+	outstream << data;
 }
 
 void Compressor :: compressTags(){
-  string outFile = "";
-  vector<string> tree;
-  
+	
+}
+
+void Compressor :: deCompressTags(){
+	
 }
 
 void Compressor :: RLE(){
 	/* using numbers in ASCII starting from 210 -not represented on keyboard- */
+	string ret = "";
+	for(int i = 0 ; i < (int)data.length() ; ){
+		int cnt = 1, j = i+1;
+		while(j < data.length() && data[i]==data[j] && cnt < 15)	++cnt, ++j;
+		if(cnt>2){
+			ret += (ASCIIbase + cnt);
+		}else{
+			j = i+1;
+		}
+			ret += data[i];
+		i = j;
+	}
+}
+
+void Compressor :: decompressRLE(){
+
 }
 
 void Compressor :: getInput(){
-
+	instream  = ifstream(inputFile, "ios::in");
+	string s;
+	while(getline(instream, s))
+		data += s;
 }
+
+
