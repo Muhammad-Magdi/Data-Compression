@@ -18,7 +18,7 @@ bool Compressor :: compress(string IF){
 }
 
 bool Compressor :: getInput(Operation op){
-	if(op == DECOMPRESS && inputFile.substr(0, 4) !="COM_")	return false;
+	//if(op == DECOMPRESS && inputFile.substr(0, 4) !="COM_")	return false;		//To be handeled
 	instream  = ifstream(inputFile, ios::in);
 	string s;
 	while(getline(instream, s))
