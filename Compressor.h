@@ -10,6 +10,7 @@ using namespace std;
 
 class Compressor{
 	private:
+		const int ASCIIbase = 210;
 		string data;										//The output of the Compression process
 		string outputFile;							//The output file name.
 		string inputFile;								//The target file -Compressed||Decompressed-
