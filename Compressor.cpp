@@ -33,9 +33,7 @@ void Compressor :: deleteSpaces(string IF){
     }
     if(inf[i] == ' ') continue;
     outputFile.push_back(inf[i]);
-	}
-void Compressor :: deleteSpaces(){
-	
+    }
 }
 
 bool Compressor :: compress(string IF){
