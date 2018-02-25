@@ -48,7 +48,11 @@ bool Compressor :: printOutput(Operation op){
 
 }
 
-void Compressor :: compressTagsRLE(){
+void Compressor :: compressTags(){
+	
+}
+
+void Compressor :: RLE(){
 	/* using numbers in ASCII starting from 210 -not represented on keyboard- */
 }
 
