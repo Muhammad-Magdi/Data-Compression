@@ -22,8 +22,11 @@ class Compressor{
 		void deleteSpaces();						//Deletes all the spaces out of the double
 																		//qoutes and the <pre> tag
 		void compressTags();						//Deletes the closing of the tag
+		void deCompressTags();					//reConstructs the tags
 		void RLE();											//Runs RLE
+		void decompressRLE();						//decompresses the RLE
 		void getInput();								//gets Input from file using input stream
+		
 	public:
 		Compressor();										//an empty Constructor
 		Compressor(string);							//takes the name of the input file
