@@ -8,6 +8,8 @@
 
 using namespace std;
 
+enum Operation {COMPRESSED, DECOMPRESSED};
+
 class Compressor{
 	private:
 		const int ASCIIbase = 210;
@@ -17,14 +19,13 @@ class Compressor{
 		ifstream instream;							//input file stream
 		ofstream outstream;							//output file stream
 		
-		enum Opreation {COMPRESSED, DECOMPRESSED};
-		bool printOutput(Opreation);		//Creates and prints either an -Compressed 
+		bool printOutput(Operation);		//Creates and prints either an -Compressed 
 		 																//or Decompressed file-
 		void deleteSpaces();						//Deletes all the spaces out of the double
 																		//qoutes and the <pre> tag
 		void compressTags();						//Deletes the closing of the tag
 		void deCompressTags();					//reConstructs the tags
-		void RLE();											//Runs RLE
+		void compressRLE();											//Runs RLE
 		void decompressRLE();						//decompresses the RLE
 		void getInput();								//gets Input from file using input stream
 		

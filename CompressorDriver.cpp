@@ -4,6 +4,6 @@ using namespace std;
 
 int main(){
 	Compressor c;
-	c.compress();
+	cout << c.compress("a.html") << endl;
 	return 0;
 }
