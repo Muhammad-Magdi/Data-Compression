@@ -34,6 +34,8 @@ void Compressor :: deleteSpaces(string IF){
     if(inf[i] == ' ') continue;
     outputFile.push_back(inf[i]);
 	}
+void Compressor :: deleteSpaces(){
+	
 }
 
 bool Compressor :: compress(string IF){
@@ -43,3 +45,16 @@ bool Compressor :: compress(string IF){
 bool Compressor :: deCompress(string IF){
 	if(IF.empty() && inputFile.empty())	return 0;
 }
+
+bool Compressor :: printOutput(Operation op){
+
+}
+
+void Compressor :: compressTagsRLE(){
+	/* using numbers in ASCII starting from 210 -not represented on keyboard- */
+}
+
+void Compressor :: getInput(){
+	
+}
+
