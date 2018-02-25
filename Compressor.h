@@ -8,7 +8,7 @@
 
 using namespace std;
 
-enum Operation {COMPRESSED, DECOMPRESSED};
+enum Operation {COMPRESS, DECOMPRESS};
 
 class Compressor{
 	private:
@@ -26,8 +26,8 @@ class Compressor{
 		void compressTags();						//Deletes the closing of the tag
 		void deCompressTags();					//reConstructs the tags
 		void compressRLE();											//Runs RLE
-		void decompressRLE();						//decompresses the RLE
-		void getInput();								//gets Input from file using input stream
+		void deCompressRLE();						//decompresses the RLE
+		bool getInput(Operation);								//gets Input from file using input stream
 		
 	public:
 		Compressor();										//an empty Constructor
