@@ -7,24 +7,23 @@ Compressor :: Compressor(string IF){
 }
 
 bool Compressor :: compress(string IF){
-	if(IF.empty() && inputFile.empty())	return 0;
-	if(inputFile.empty())	inputFile = IF;
-	cout << inputFile << endl;
-	getInput();
-	cout << data << endl << endl;
+	if(IF.empty() && inputFile.empty())	return false;
+	if(!IF.empty())	inputFile = IF;
+	getInput(COMPRESS);
 	deleteSpaces();
-	cout << data << endl << endl;	
 	compressTags();
 	compressRLE();
-	printOutput(COMPRESSED);
-	return 1;
+	printOutput(COMPRESS);
+	return true;
 }
 
-void Compressor :: getInput(){
+bool Compressor :: getInput(Operation op){
+	if(op == DECOMPRESS && inputFile.substr(0, 4) !="COM_")	return false;
 	instream  = ifstream(inputFile, ios::in);
 	string s;
 	while(getline(instream, s))
 		data += s;
+	return 1;
 }
 
 void Compressor :: deleteSpaces(){
@@ -64,22 +63,30 @@ void Compressor :: compressRLE(){
 		int cnt = 1, j = i+1;
 		while(j < data.length() && data[i]==data[j] && cnt < 15)	++cnt, ++j;
 		if(cnt>2){
-			ret += (ASCIIbase + cnt);
+			ret.push_back((char)(ASCIIbase + cnt - 3));
 		}else{
 			j = i+1;
 		}
-			ret += data[i];
+			ret.push_back(data[i]);
 		i = j;
 	}
+	data = ret;
 }
 
 bool Compressor :: deCompress(string IF){
-	if(IF.empty() && inputFile.empty())	return 0;
+	if(IF.empty() && inputFile.empty())	return false;
+	if(!IF.empty())	inputFile = IF;
+	getInput(DECOMPRESS);
+	deCompressTags();
+	deCompressRLE();
+	printOutput(DECOMPRESS);
+	return true;
 }
 
 bool Compressor :: printOutput(Operation op){
 	string o = "";
-	o = (op == DECOMPRESSED ? "" : "COM_") + inputFile;
+	if(op == COMPRESS)	o = "COM_"+inputFile;
+	else	o = inputFile.substr(3, inputFile.size()-3);
 	outstream = ofstream(o, ios::out);
 	outstream << data;
 }
@@ -88,8 +95,17 @@ void Compressor :: deCompressTags(){
 	
 }
 
-void Compressor :: decompressRLE(){
-
+void Compressor :: deCompressRLE(){
+	string ret = "";
+	for(int i = 0 ; i < (int)data.length() ; ++i){
+		int cnt = 0;
+		if((unsigned char)data[i] >= ASCIIbase)	cnt = (unsigned char)data[i++]-ASCIIbase+2;
+		while(cnt--){
+			ret.push_back(data[i]);
+		}
+		ret.push_back(data[i]);
+	}
+	data = ret;
 }
 
 
