@@ -28,27 +28,45 @@ bool Compressor :: getInput(Operation op){
 
 void Compressor :: deleteSpaces(){
 	string outputFile = "";
+	char pr;
 	for(int i=0; i<data.size(); i++){
+    if(data[i]=='\t')
+      data[i] = ' ';
     if(data[i]=='<'){
       while(data[i]!='>'){
+        if(data[i]==' ' && outputFile.back()==' '){
+          i++;
+          continue;
+        }
         outputFile.push_back(data[i++]);
       }
     }
     else if(data[i]=='\"'){
     	outputFile.push_back(data[i++]);
-      while(data[i]!='\"')
+      while(data[i]!='\"'){
+        if(data[i]==' ' && outputFile.back()==' '){
+          i++;
+          continue;
+        }
         outputFile.push_back(data[i++]);
+      }
       outputFile.push_back(data[i]);
     }
     else if(data[i]=='\''){
     	outputFile.push_back(data[i++]);
-      while(data[i]!='\'')
+      while(data[i]!='\''){
+        if(data[i]==' ' && outputFile.back()==' '){
+          i++;
+          continue;
+        }
         outputFile.push_back(data[i++]);
+      }
       outputFile.push_back(data[i]);
     }
-    else if(data[i] == ' ' || data[i]=='\t') continue;
+    else if(data[i] == ' ' && outputFile.back()==' ') continue;
   	outputFile.push_back(data[i]);
   }
+  cout << endl;
 	data = outputFile;
 }
 
